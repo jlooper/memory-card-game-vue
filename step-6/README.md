@@ -41,7 +41,7 @@ matchCards(img1, img2) {
 
 If you didn't have the `matchCards()` function setup, add the previous code to your `methods: {...}` object now. Save and test this in the browser.
 
-It _*almost*_ works! You might have noticed a tiny flaw in the logic to [`removeEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener) from the cards that were a match. When you play the game at this point, everything should function as you expect, _*except*_ for after a match has been made. Once a match has been made, the player is able to click a matched card, and tested against another card, and could be _unflipped_ after already matched.
+<!--It _*almost*_ works! You might have noticed a tiny flaw in the logic to [`removeEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener) from the cards that were a match. When you play the game at this point, everything should function as you expect, _*except*_ for after a match has been made. Once a match has been made, the player is able to click a matched card, and tested against another card, and could be _unflipped_ after already matched.
 
 The culprit is that these lines of code don't do what they were intended to do:
 
@@ -123,7 +123,7 @@ matchCards(img1, img2) {
   }, 1200);
 },
 ```
-
+-->
 Test your game until you've successfully matched all 8 pairs. If you see the message `YOU WIN!` in the console, you've successfully rebuilt your game in Vue!
 
 If you added any game features in your original `static_site` version, try to convert those features to Vue now too!
