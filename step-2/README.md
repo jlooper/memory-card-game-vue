@@ -125,11 +125,21 @@ Paste a new <style> block into the bottom of this file:
 }
 
 body {
+  min-height: 100vh;
+  background: #6563FF;
+}
+
+h1 {
+  text-align: center;
+  margin: 30px 0 20px;
+  width: 100%;
+  color: #fff;
+}
+
+main {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: #6563FF;
 }
 
 .game-board {
@@ -165,6 +175,28 @@ body {
   width: calc(100% / 4 - 10px);
 }
 
+.you-win-msg {
+  width: 100%;
+  text-align: center;
+}
+
+.you-win-msg h2 {
+  font-size: 4rem;
+  color:#6563FF;
+}
+
+.cards .you-win-msg {
+  display: none;
+}
+
+.cards.hide .card {
+  visibility: hidden;
+}
+
+.cards.hide .you-win-msg {
+  display: block;
+}
+
 .card .view {
   width: 100%;
   height: 100%;
@@ -184,7 +216,100 @@ body {
 .card .back-view img {
   max-width: 45px;
 }
+
+.card .back-view {
+  transform: rotateY(-180deg);
+}
+
+.card.flip .back-view {
+  transform: rotateY(0);
+}
+
+.card.flip .front-view {
+  transform: rotateY(180deg);
+}
+
+.card.shake{
+  animation: shake 0.35s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100%{
+    transform: translateX(0);
+  }
+  20%{
+    transform: translateX(-13px);
+  }
+  40%{
+    transform: translateX(13px);
+  }
+  60%{
+    transform: translateX(-8px);
+  }
+  80%{
+    transform: translateX(8px);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .cards {
+    height: 350px;
+    width: 350px;
+  }
+
+  .card .front-view img {
+    width: 17px;
+  }
+
+  .card .back-view img {
+    max-width: 40px;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .cards {
+    height: 300px;
+    width: 300px;
+  }
+
+  .card .front-view img {
+    width: 15px;
+  }
+
+  .card .back-view img {
+    max-width: 35px;
+  }
+}
+
+.console {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button,
+.match-count {
+  margin: 20px 0 0;
+  background-color: white;
+  border: 3px solid #6563ff;
+  border-radius: 7px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+button:hover,
+.match-count {
+  background-color: #6563ff;
+  color: white;
+}
+
+.match-count {
+  cursor: default;
+}
 ```
+
 Now you should see your app in the browser starting to take shape!
 
 > CodeSandbox might add a `scoped` keyword to the style tag. Remove it so that your styles can be shared outside the App.vue file.
