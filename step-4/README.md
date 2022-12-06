@@ -1,9 +1,5 @@
 # Step 4: v-for
-Now that you've come this far, it's time for some cleanup. In your `src/components` directory, delete the boilerplate components that came with the VueJS installation. Those files are:
-- `HelloWorld.vue`
-- `TheWelcome.vue`
-- `WelcomeItem.vue`
-- the entire `icons` directory
+Now that you've come this far, it's time for some cleanup. In your `src/components` directory, delete the `HelloWorld.vue` boilerplate component that came with the VueJS installation. 
 
 Now you'll address the `<li class="card">` element. It needs to be called 16 times, and there is some variable data needed for the nested `<CardView />` components (`imageUrl`s and `imageAltText`s).
 
@@ -15,37 +11,37 @@ Add this code to the `memoryCards8.js` file:
 ```js
 export default [
   {
-    url: "../static_site/images/img-1.png",
-    altText: "An emerald cut into a diamond shape.",
+    url: "./img-1.png",
+    altText: "An emerald cut into a diamond shape."
   },
   {
-    url: "../static_site/images/img-2.png",
-    altText: "A ruby cut into a pentagon shape.",
+    url: "./img-2.png",
+    altText: "A ruby cut into a pentagon shape."
   },
   {
-    url: "../static_site/images/img-3.png",
-    altText: "An amethyst in a princess cut.",
+    url: "./img-3.png",
+    altText: "An amethyst in a princess cut."
   },
   {
-    url: "../static_site/images/img-4.png",
-    altText: "A rose quartz stone cut into a pentagon shape.",
+    url: "./img-4.png",
+    altText: "A rose quartz stone cut into a pentagon shape."
   },
   {
-    url: "../static_site/images/img-5.png",
-    altText: "A sapphire cut into a hexagon shape.",
+    url: "./img-5.png",
+    altText: "A sapphire cut into a hexagon shape."
   },
   {
-    url: "../static_site/images/img-6.png",
-    altText: "An amethyst cut into a diamond shape.",
+    url: "./img-6.png",
+    altText: "An amethyst cut into a diamond shape."
   },
   {
-    url: "../static_site/images/img-7.png",
-    altText: "A topaz cut into a hexagon shape.",
+    url: "./img-7.png",
+    altText: "A topaz cut into a hexagon shape."
   },
   {
-    url: "../static_site/images/img-8.png",
-    altText: "An emerald cut into a hexagon shape.",
-  },
+    url: "./img-8.png",
+    altText: "An emerald cut into a hexagon shape."
+  }
 ];
 ```
 
@@ -67,7 +63,7 @@ export default {
   },
 };
 ```
-Inside the `data()` object, VueJS will expect a `return` object with reactive property names and values that can be used and manipulated while the app is in use. This `return` object acts as a container for what could be equivalent to a _global variable_ (as you have seen in `static_site/script.js`), with the exception that these variables are _scoped_ to the current component.
+Inside the `data()` object, VueJS will expect a `return` object with reactive property names and values that can be used and manipulated while the app is in use. This `return` object acts as a container for what could be equivalent to a _global variable_, with the exception that these variables are _scoped_ to the current component.
 Add this `data() {}` and let it return a variable `cardsData`:
 ```js
 export default {
@@ -98,6 +94,7 @@ In `GameBoard.vue`, find the `<li class="card">` line and change it to:
 <li v-for="(cardInfo, index) in cardsData" :key="index" class="card">
 ```
 To read this in plain language, this `v-for` syntax states:
+
 > For each object in the array named `cardsData`, call the object `cardInfo` and count its `index` in the array. Give each `<li>` tag a `key` attribute that will carry the value of the current `index`.
 
 Save this change and look at it in the browser. You should now have 8 `<li>` tags, each containing 2 `<div>` tags. *Wait!* There are only 8, but you need 16!
@@ -117,7 +114,7 @@ Looking again at the `GameBoard.vue` component, within the `<template>` tag, fin
 ```html
 <CardView
   viewType="back"
-  imageUrl="../static_site/images/img-1.png"
+  imageUrl="/img-1.png"
   imageAltText="An emerald cut into a diamond shape."
 />
 ```
@@ -131,15 +128,17 @@ and change it to:
 ```
 Now the `imageUrl` and `imageAltText` prop attributes have *bindings* (because of the `:`), and what is inside the quotations for each of these is evaluated as JavaScript.
 The variable `cardInfo` is inherited from the wrapping `<li>` tag's `v-for` loop, where each instance of `cardInfo` represents the next object in the `cardsData` array. For example:
+
 ```js
 cardInfo = {
-  url: "../static_site/images/img-8.png",
+  url: "/img-8.png",
   altText: "An emerald cut into a hexagon shape.",
 }
 ```
-Therefore, `cardInfo.url` evaluates to the string `../static_site/images/img-8.png` and `cardInfo.altText` evaluates to the string `An emerald cut into a hexagon shape.`.
+Therefore, `cardInfo.url` evaluates to the string `/img-8.png` and `cardInfo.altText` evaluates to the string `An emerald cut into a hexagon shape.`.
 
 Your `GameBoard.vue` component should now look like this:
+
 ```html
 <script>
 import CardView from "./CardView.vue";
@@ -174,6 +173,5 @@ export default {
 ```
 
 In the browser, the app should display 16 _cards_, and the `back-view` of these cards should have the correct image file paths with matching alt text.
-To get a visual for how this is working, add the `flip` class to the `<li>` tag in the `GameBoard.vue` component, and preview it in the browser. You should now see 8 pairs of matching images on the 16 cards.
 
-Remove the `flip` class and save your work before moving on to [Step 5](/step-5).
+Move on to [Step 5](/step-5).
