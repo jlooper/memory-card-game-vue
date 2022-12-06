@@ -3,7 +3,7 @@ In your original `index.html` file, you have 16 `<li>` tags that look like this:
 ```html
 <li class="card">
   <div class="view front-view">
-    <img src="images/que_icon.svg" alt="icon">
+    <img src="images/que_icon.png" alt="icon">
   </div>
   <div class="view back-view">
     <img src="images/img-1.png" alt="card-img">
@@ -27,11 +27,12 @@ In the browser you should now see the text *I am the GameBoard.vue component* on
 
 Why is it there twice? Because we will only be rendering ONE `<div class="view">` per component instance of `<CardView />`, but we need to have two card views; one for the back view, and one for the front.
 
-Open the `CardView.vue` component and replace the contents of the `<template>` tag with this `<div>` code from your original `index.html` file:
+Open the `CardView.vue` component and replace the contents of the `<template>` tag with this `<div>` code similar to your original `index.html` file:
+
 ```html
 <template>
   <div class="view front-view">
-    <img src="images/que_icon.svg" alt="icon" />
+    <img src="/que_icon.png" alt="icon" />
   </div>
 </template>
 ```
@@ -44,7 +45,9 @@ Since your CSS is setup to have these `<div class="view">...</div>` elements vis
 What about the second `<div class="view front-view">`? That needs to render with the class `back-view` instead of `front-view`. For this, we will use a *prop*.
 
 In your `CardView.vue` file, find the line `export default {};` in the `<script>` tag.
+
 Within the `export default` object, add a `props: {}` object with a *prop* named `viewType` like this:
+
 ```js
 export default {
   props: {
@@ -82,15 +85,18 @@ Save this change and check your app in the browser. You won't see the `[Vue warn
 
 Now you can put your new `viewType` prop to good use!
 In your `CardView.vue` component, you will update the `<div>` class in a very special way. Right now the `<div>` tag in your component looks like this:
+
 ```html
 <div class="view front-view">
 ```
+
 Change that to:
 ```html
 <div :class="`view ${viewType}-view`">
 ```
 
 *What did that just do?*
+
 When we add a colon `:` before the `class` attribute, we are *binding* the attribute to Vue. It's a shorthand for `v-bind:class`. With the binding in place, everything between the quotation marks in `:class="..."` will be evaluated as _JavaScript_! Thus inside the quotation marks we add backticks so that we have the option of *string interpolation*, and we can use the `viewType` prop as a *variable* within the string.
 
 Save this change and view the app in your browser. Use the dev tools inspector to see the two `<div>`s that are compiled from the two component instances of `<CardView viewType="">`. You will see that the first `<div>` has a class attribute of `"view front-view"` and the second `<div>` has a class attribute of `"view back-view"`.
@@ -98,6 +104,7 @@ Save this change and view the app in your browser. Use the dev tools inspector t
 Now that the classes for the divs are setup, you will need to address the variation of the `<img>` tag.
 
 In your original `index.html` code, where the two `<div>`s are nested each of the `<li>` tags, there is an `<img>` tag inside each `<div>`, like this:
+
 ```html
 <div class="view front-view">
   <img src="images/que_icon.svg" alt="icon">
@@ -110,10 +117,12 @@ In your original `index.html` code, where the two `<div>`s are nested each of th
 Now that you have a `CardView.vue` component, you're working with only one `<div>`, so you will need to work with only one `<img>` tag too!
 
 In your `CardView.vue` component, your `<img>` tag is currently:
+
 ```html
-<img src="images/que_icon.svg" alt="icon" />
+<img src="/que_icon.png" alt="icon" />
 ```
 Change that tag to this:
+
 ```html
 <img :src="imageUrl" :alt="imageAltText" />
 ```
@@ -121,6 +130,7 @@ Change that tag to this:
 Save the file and check the app in the browser with the dev tools console open. You should see 4 errors that begin with `[Vue warn]`. There is one error for each of the two variables we just added: `imageUrl` and `imageAltText`, and that is doubled because the `CardView` component is called twice inside the `GameBoard` component.
 
 Now add those new variables into the `props` object in `CardView.vue` like this:
+
 ```js
 props: {
   viewType: {
@@ -129,7 +139,7 @@ props: {
   },
   imageUrl: {
     type: String,
-    default: `../static_site/images/que_icon.svg`,
+    default: `/que_icon.png`,
   },
   imageAltText: {
     type: String,
@@ -139,12 +149,14 @@ props: {
 ```
 
 Note that these new props are not `required: true`! When you do not require a prop, you must have a `default` value instead. Calling this component inside another without specifying a value for either of these props (like this):
+
 ```html
 <CardView viewType="back" /> 
 ```
 means that the component instance will render, but since it doesn't have values for these unrequired props from the parent component, it will fill in the prop values with their defaults, and you will see the `<img>` tag render in the browser like this:
+
 ```html
-<img src="../static_site/images/que_icon.svg" alt="hidden card" />
+<img src="/que_icon.png" alt="hidden card" />
 ```
 
 Now your `CardView.vue` file should look like this:
@@ -158,7 +170,7 @@ export default {
     },
     imageUrl: {
       type: String,
-      default: `../static_site/images/que_icon.svg`,
+      default: `/que_icon.png`,
     },
     imageAltText: {
       type: String,
@@ -185,14 +197,15 @@ to this:
 ```html
 <CardView
   viewType="back"
-  imageUrl="../static_site/images/img-1.png"
+  imageUrl="/img-1.png"
   imageAltText="An emerald cut into a diamond shape."
 />
 ```
-The syntax looks different as the prop attributes are stacked instead of inline, but the component will render as expected. This is a stylistic formatting choice, which is enforced by the ESLint npm package in this project.
+The syntax looks different as the prop attributes are stacked instead of inline, but the component will render as expected. 
 
 Save this and inspect the app in your browser dev tools.
 The markup you see should mimic this block of HTML:
+
 ```html
 <main>
   <div class="game-board">
@@ -200,10 +213,10 @@ The markup you see should mimic this block of HTML:
     <ul class="cards">
       <li class="card">
         <div class="view front-view">
-          <img src="../static_site/images/que_icon.svg" alt="hidden card">
+          <img src="/que_icon.svg" alt="hidden card">
         </div>
         <div class="view back-view">
-          <img src="../static_site/images/img-1.png" alt="An emerald cut into a diamond shape.">
+          <img src="/img-1.png" alt="An emerald cut into a diamond shape.">
         </div>
       </li>
     </ul>
