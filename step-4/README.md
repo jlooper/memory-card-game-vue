@@ -172,6 +172,8 @@ export default {
 </template>
 ```
 
-In the browser, the app should display 16 _cards_, and the `back-view` of these cards should have the correct image file paths with matching alt text.
+In the browser, the app should display 16 _cards_, and the `back-view` of these cards should have the correct image file paths with matching alt text. 
+
+> Test your cards by adding 'flip' in the `<li>` class above.
 
 Move on to [Step 5](/step-5).
