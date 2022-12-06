@@ -15,12 +15,13 @@ In your `src/components` directory, create two new SFC files: `GameBoard.vue`, a
 
 In each of your 2 new files, add the following code:
 ```html
-<script>
-  export default {};
-</script>
 
 <template>
 </template>
+
+<script>
+  export default {};
+</script>
 
 ```
 
@@ -34,12 +35,12 @@ This way you will be able to see how they are output by the compiler once they e
 
 In order to see these components in the browser, they need to be called upon within the app.
 
-In your `App.vue` file, within the `<script setup> ... </script>` tag, remove the 2 default component import statements and add:
+In your `App.vue` file, within the `<script> ... </script>` tag, remove the component import statement and add:
 ```js
 import GameBoard from "./components/GameBoard.vue";
 ```
 
-Next, inside of `App.vue`, remove the `<header></header>` tag and all of its contents. Change the content of the `<main></main>` tag to a component instance of the game board, like this:
+Next, inside of `App.vue`, remove everything between the `<template></template>` tags. Change the content of the `<main></main>` tag to a component instance of the game board, like this:
 ```html
 <main>
   <GameBoard />
@@ -54,10 +55,17 @@ The whole `<template>` tag in your `App.vue` file should look like this:
   </main>
 </template>
 ```
+Finally, change the `Components` list in the `<script>` tag to refer to this new component instead of the HelloWorld one:
 
-Now look at the app as it is running at localhost (if it is not running, you will need to use the terminal command `npm run dev` to start it). The only content you should see on the screen now is the `<p>` tag from inside of your `GameBoard.vue` component, such as *I am the GameBoard.vue component*.
+```
+components: {
+    GameBoard: GameBoard,
+  },
+```
 
-Inside of the `GameBoard.vue` component, add an `import` statement to the `<script>` tag to import the `CardView.vue` component, above the `export default {};` line like this:
+Now look at the app in the CodeSandbox browser (refresh the browser window if needed). The only content you should see on the screen now is the `<p>` tag from inside of your `GameBoard.vue` component, such as *I am the GameBoard.vue component*.
+
+Inside the `GameBoard.vue` component, add an `import` statement to the `<script>` tag to import the `CardView.vue` component, above the `export default {};` line like this:
 ```html
 <script>
 import CardView from "./CardView.vue";
@@ -84,18 +92,8 @@ Your `GameBoard.vue` file's `<template>` tag should now look something like this
   <CardView />
 </template>
 ```
-*Oh Noes! A syntax error!* Due to the way in which VueJS 2.0 compiles components, it requires that there is only _one single HTML element in the template root_. The `<template>` tag will not actually render in the compiled code, so VueJS 2.0 is looking for all the content within the `<template>` tag to be wrapped in a tag that _will_ render. (This has been changed in VueJS 3.0)
 
-Update the `<template>` tag code in your `GameBoard.vue` file to include a `<div>` to wrap the content, like this:
-```html
-<template>
-  <div>
-    <p>I am the GameBoard.vue component</p>
-    <CardView />
-  </div>
-</template>
-```
-When you look at this in your browser at localhost, you should now see the text *I am the GameBoard.vue component* followed by *I am the CardView.vue component*.
+When you look at this app in the CodeSandbox browser, you should now see the text *I am the GameBoard.vue component* followed by *I am the CardView.vue component*.
 
 Now you want to make the HTML render in a way that looks like the HTML from your original Memory Game project's `index.html`. This means you need to add the `game-board` class to the `<div>` tag in your `GameBoard.vue` component, and wrap `<ul class="cards">` and `<li class="card">` tags around the `<CardView />` component instance:
 ```html
@@ -112,16 +110,83 @@ Now you want to make the HTML render in a way that looks like the HTML from your
 ```
 This doesn't change much in the app when viewed in the browser, but upon inspecting the page with dev tools, you will see the added class name `game-board` and the added `<ul class="cards">` and `<li class="card">` tags.
 
-Speaking of what you see in the browser, you've got some lingering styles from the boilerplate of the VueJS setup, so go into your `App.vue` component and remove the entire `<style scoped> ... </style>` tag. Once you save this and look at it in the browser, there are still boilerplate styles present! *Where do they come from?*
+Speaking of what you see in the browser, you've got some lingering styles from the boilerplate of the VueJS setup, so go into your `App.vue` component and remove the entire `<style> ... </style>` block. 
 
-Open the file `main.js` from the `src` directory. At line 4 you should see:
-```js
-import "./assets/main.css";
+Let's add our styles from the previous game into App.vue:
+
+Paste a new <style> block into the bottom of this file:
+
 ```
-Change this import to directly reference your `style.css` file copy in your `static_site` directory, like this:
-```js
-import "../static_site/style.css";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #6563FF;
+}
+
+.game-board {
+  padding: 25px;
+  border-radius: 10px;
+  background: #F8F8F8;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.cards,
+.card,
+.view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards {
+  height: 400px;
+  width: 400px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.cards .card {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  height: calc(100% / 4 - 10px);
+  width: calc(100% / 4 - 10px);
+}
+
+.card .view {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 7px;
+  background: #fff;
+  pointer-events: none;
+  backface-visibility: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.25s linear;
+}
+
+.card .front-view img {
+  width: 19px;
+}
+
+.card .back-view img {
+  max-width: 45px;
+}
 ```
 Now you should see your app in the browser starting to take shape!
+
+> CodeSandbox might add a `scoped` keyword to the style tag. Remove it so that your styles can be shared outside the App.vue file.
 
 Go on to [Step 3](/step-3) to continue...
