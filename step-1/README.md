@@ -17,7 +17,7 @@ This is telling the Vue compiler that within this `App.vue` SFC, you want to use
 You will see this child component used inside the `<template>` tag as if they were their own HTML element tags:
 
 ```html
-<HelloWorld msg="You did it!" />
+<HelloWorld msg="Hello Vue 3 in CodeSandbox!" />
 ```
 ```html
 <TheWelcome />
@@ -27,11 +27,11 @@ Notice the syntax here! The SFC filenames and the HTML tags that represent them 
 
 Look at the _component instance_ of `HelloWorld`:
 ```html
-<HelloWorld msg="You did it!" />
+<HelloWorld msg="Hello Vue 3 in CodeSandbox!" />
 ```
 This has an _attribute_ of `msg="You did it!"`. The attribute `msg` here is not an HTML attribute, but an attribute that is specific to the `HelloWorld.vue` SFC. We call these *props*.
 
-`msg` is a variable property that can be read inside of the `HelloWorld.vue` component. If you look at your app running in the browser (at localhost) you will see the `<h1>` tag that reads *You did it!*.
+`msg` is a variable property that can be read inside of the `HelloWorld.vue` component. If you look at your app running in the browser in CodeSandbox, you will see the `<h1>` tag that reads *Hello Vue 3 in CodeSandbox!*.
 
 Open up the `HelloWorld.vue` file in your code editor. At the middle of this file you will see a `script` tag:
 ```html
