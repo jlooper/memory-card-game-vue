@@ -40,7 +40,8 @@ In your `App.vue` file, within the `<script> ... </script>` tag, remove the comp
 import GameBoard from "./components/GameBoard.vue";
 ```
 
-Next, inside of `App.vue`, remove everything between the `<template></template>` tags. Change the content of the `<main></main>` tag to a component instance of the game board, like this:
+Next, inside of `App.vue`, remove everything between the `<template></template>` tags. Change the content of the template to a component instance of the game board, like this:
+
 ```html
 <main>
   <GameBoard />
