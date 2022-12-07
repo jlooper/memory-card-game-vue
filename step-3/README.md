@@ -32,7 +32,7 @@ Open the `CardView.vue` component and replace the contents of the `<template>` t
 ```html
 <template>
   <div class="view front-view">
-    <img src="/que_icon.png" alt="icon" />
+    <img src="/que_icon.svg" alt="icon" />
   </div>
 </template>
 ```
@@ -119,7 +119,7 @@ Now that you have a `CardView.vue` component, you're working with only one `<div
 In your `CardView.vue` component, your `<img>` tag is currently:
 
 ```html
-<img src="/que_icon.png" alt="icon" />
+<img src="/que_icon.svg" alt="icon" />
 ```
 Change that tag to this:
 
@@ -139,7 +139,7 @@ props: {
   },
   imageUrl: {
     type: String,
-    default: `/que_icon.png`,
+    default: `/que_icon.svg`,
   },
   imageAltText: {
     type: String,
@@ -156,7 +156,7 @@ Note that these new props are not `required: true`! When you do not require a pr
 means that the component instance will render, but since it doesn't have values for these unrequired props from the parent component, it will fill in the prop values with their defaults, and you will see the `<img>` tag render in the browser like this:
 
 ```html
-<img src="/que_icon.png" alt="hidden card" />
+<img src="/que_icon.svg" alt="hidden card" />
 ```
 
 Now your `CardView.vue` file should look like this:
@@ -170,7 +170,7 @@ export default {
     },
     imageUrl: {
       type: String,
-      default: `/que_icon.png`,
+      default: `/que_icon.svg`,
     },
     imageAltText: {
       type: String,
